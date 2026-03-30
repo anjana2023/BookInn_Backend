@@ -291,9 +291,11 @@ export const makePayment = async (
   bookingId: string,
   totalAmount: number
 ) => {
-
-  const stripe = new Stripe(configKeys.STRIPE_SECRET_KEY);
-
+console.log("ENV KEY:", process.env.STRIPE_SECRET_KEY);
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY as string, {
+  apiVersion: "2024-04-10",
+});
+   console.log(stripe,"./")
   const customer = await stripe.customers.create({
     name: userName,
     email: email,
@@ -302,6 +304,8 @@ export const makePayment = async (
       country: "US",
     },
   });
+  console.log("CLIENT_URL:", process.env.CLIENT_URL);
+console.log("SUCCESS URL:", `${process.env.CLIENT_URL}/payment_status/${bookingId}?success=true`);
   const session = await stripe.checkout.sessions.create({
     payment_method_types: ["card"],
     customer: customer.id,

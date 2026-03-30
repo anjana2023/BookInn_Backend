@@ -50,11 +50,12 @@ const tokenContoller = (
             .json({ message: "Refresh token is expired" });
         } else {
           const { id, name, role } = user;
-          const  { accessToken }  = authService.createTokens(id, name, role);
+         const tokens = authService.createTokens(id, name, role);
+console.log(tokens,"./");
           res.status(HttpStatus.OK).json({
             success: true,
             message: "Token refreshed successfully",
-            access_token: accessToken,
+            access_token: tokens,
           });
         }
       }

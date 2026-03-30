@@ -93,10 +93,10 @@ const hotelController = (
     next: NextFunction
   ) => {
     try {
-      // if (req.user) {
+      
         const Hotels = await getUserHotels(dbRepositoryHotel);
         return res.status(HttpStatus.OK).json({ success: true, Hotels });
-      // }
+   
     } catch (error) {
       next(error);
     }

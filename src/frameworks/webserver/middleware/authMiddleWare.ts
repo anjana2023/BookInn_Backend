@@ -88,6 +88,7 @@ export async function authenticateOwner(
 ) {
   try {
     const access_token = req.headers.authorization;
+    console.log("////access",access_token)
     if (!access_token) {
       return res.status(HttpStatus.FORBIDDEN).json("You are not authenticated");
     }
@@ -103,9 +104,10 @@ export async function authenticateOwner(
 
 
     const owner = jwt.verify(token, configKeys.ACCESS_SECRET) as JwtPayload;
-
+console.log("DECODED TOKEN:", owner);
 
     if (owner.role === "owner") {
+      console.log("req owner",req.owner,owner.id)
       req.owner = owner.id;
       return next();
     }
